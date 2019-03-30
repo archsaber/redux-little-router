@@ -1,3 +1,11 @@
+## This is a temporary fork
+
+The project is deprecated but its dependencies are introducing unflagged breaking
+changes which causes the last version to no longer work.
+
+This fork fixes those changes for anyone who still needs a working release as they
+work on migrating.
+
 ## Project Deprecated
 
 As of December 10, 2018, this project is no longer under active maintenance. There are a few reasons we at Formidable made this decision:
