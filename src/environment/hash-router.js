@@ -1,6 +1,6 @@
 // @flow
-import type { History, HashHistoryOptions } from 'history';
-import createHashHistory from 'history/createHashHistory';
+import type { History, HashHistoryOptions, HashType } from 'history';
+import { createHashHistory } from 'history';
 
 import normalizeHref from '../util/normalize-href';
 import install from '../install';
@@ -8,7 +8,7 @@ import install from '../install';
 type HashRouterArgs = {
   routes: Object,
   basename: string,
-  hashType: string,
+  hashType: HashType,
   historyOptions: HashHistoryOptions,
   history: History
 };

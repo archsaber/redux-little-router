@@ -5,18 +5,16 @@
 // TypeScript version: 2.4
 
 import * as React from "react";
-import { Action, Reducer, Middleware, StoreEnhancer } from "redux";
+import { Reducer, Middleware, StoreEnhancer } from "redux";
 
-export type Query = { [key: string]: string };
-export type Params = { [key: string]: string };
+export type ObjectLiteral<T> = { [key: string]: T };
+
+export type Query = ObjectLiteral<string>;
+export type Params = ObjectLiteral<string>;
 
 /* check out https://basarat.gitbooks.io/typescript/docs/types/index-signatures.html to read more
 about what is happening here. */
-export interface Routes {
-  [key: string]: {
-    [key: string]: any;
-  };
-}
+export type Routes = ObjectLiteral<ObjectLiteral<any>>;
 
 export type LocationOptions = {
   persistQuery?: boolean;
@@ -26,9 +24,9 @@ export type LocationOptions = {
 export interface HistoryLocation {
   hash?: string,
   key?: string
-  pathname: string,
+  pathname?: string,
   search?: string,
-  state?: {},
+  state?: ObjectLiteral<any>,
 }
 
 export interface Location extends HistoryLocation {
@@ -38,7 +36,7 @@ export interface Location extends HistoryLocation {
   previous?: Location;
   query?: Query;
   queue?: Array<Location>;
-  result?: {};
+  result?: ObjectLiteral<any>;
   routes?: Routes;
 }
 
@@ -121,18 +119,19 @@ export function block(historyShouldBlock: BlockCallback): BlockAction;
 export function unblock(): UnblockAction;
 export function replaceRoutes(routes: Routes): ReplaceRoutesAction;
 
-type ListenCallback = (location: Location, action?: Action) => void;
-type BlockCallback = (location: Location, action?: Action) => string;
+type HistoryAction = 'PUSH' | 'POP' | 'REPLACE';
+type ListenCallback = (location: Location, action?: HistoryAction) => void;
+type BlockCallback = (location: Location, action?: HistoryAction) => string;
 type Unsubscribe = () => void;
 
 export interface History {
   length: number;
   location: Location;
-  action: Action;
+  action: HistoryAction;
   listen(callback: ListenCallback): Unsubscribe;
-  push(path: string, state?: {}): void;
+  push(path: string, state?: ObjectLiteral<any>): void;
   push(location: Location): void;
-  replace(path: string, state?: {}): void;
+  replace(path: string, state?: ObjectLiteral<any>): void;
   replace(location: Location): void;
   go(n: number): void;
   goBack(): void;
@@ -166,9 +165,7 @@ export interface ExpressRouterArgs {
     path: string;
     baseUrl: string;
     url: string;
-    query: {
-      [key: string]: string;
-    };
+    query: ObjectLiteral<string>;
     passRouterStateToReducer?: boolean;
   };
 }
@@ -178,9 +175,7 @@ export interface HapiRouterArgs {
   request: {
     path: string;
     url: string;
-    query: {
-      [key: string]: string;
-    }
+    query: ObjectLiteral<string>;
   };
 }
 
@@ -200,7 +195,7 @@ export interface LinkProps {
   replaceState?: boolean;
   target?: string;
   onClick?: (event: Event) => any;
-  style?: {};
+  style?: ObjectLiteral<any>;
   location?: Location;
   push?: (href: Href, options: LocationOptions) => {
     type: string;
@@ -210,7 +205,7 @@ export interface LinkProps {
     type: string;
     payload: Location;
   };
-  activeProps?: {};
+  activeProps?: ObjectLiteral<any>;
 }
 
 export declare class Link extends React.Component<LinkProps, {}> {}
@@ -228,7 +223,7 @@ export interface FragmentProps {
   withConditions?: (location: Location) => boolean;
   forNoMatch?: boolean;
   parentId?: string;
-  style?: {};
+  style?: ObjectLiteral<any>;
 }
 
 export declare class Fragment extends React.Component<FragmentProps, {}> {}

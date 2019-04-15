@@ -1,16 +1,16 @@
 // @flow
 import type { History, BrowserHistoryOptions } from 'history';
 
-import createBrowserHistory from 'history/createBrowserHistory';
+import { createBrowserHistory } from 'history';
 
 import normalizeHref from '../util/normalize-href';
 import install from '../install';
 
 type BrowserRouterArgs = {
   routes: Object,
-  basename: string,
-  historyOptions: BrowserHistoryOptions,
-  history: History
+  basename?: string,
+  historyOptions?: BrowserHistoryOptions,
+  history?: History
 };
 
 export const createBrowserRouter = (installer: Function) => ({
@@ -28,7 +28,7 @@ export const createBrowserRouter = (installer: Function) => ({
 
   // Strip the basename from the initial pathname
   const pathname =
-    fullPathname.indexOf(basename) === 0
+    basename && fullPathname.indexOf(basename) === 0
       ? fullPathname.slice(basename.length)
       : fullPathname;
 
